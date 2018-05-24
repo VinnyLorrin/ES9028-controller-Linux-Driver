@@ -97,7 +97,7 @@ check:
 
 This driver only works with the ES9028 controller flashed with pre-compiled binary
 
-## Relate resouce
+## Relate resource
 
 ### 1. ES9028Q2M controller PCB
 
