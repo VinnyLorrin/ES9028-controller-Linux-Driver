@@ -30,6 +30,7 @@ Install GCC-4.9.x by package system.
     sudo apt-get install gcc-4.9 g++-4.9
 
 Change default GCC
+
 	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 10
 	update-alternatives --config gcc
 
