@@ -48,7 +48,7 @@ Choose place of kernel source files & directory, e.g. '.' current folder.
 
     rpi-source -d .
 
-if rpi-source gives kernel version mismatck, use 
+if rpi-source gives kernel version mismatch, use 
 
 	sudo apt-get install raspberrypi-kernel-headers
 
