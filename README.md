@@ -98,3 +98,12 @@ check:
 This driver only works with the ES9028 controller flashed with pre-compiled binary
 
 ## Relate resouce
+
+### 1. ES9028Q2M controller PCB
+
+	https://github.com/VinnyLorrin/ES9028-controller-PCB
+	
+### 2. ES9028Q2M controller firmware
+
+	https://github.com/VinnyLorrin/ES9028Q2M-controller
+	
