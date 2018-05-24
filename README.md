@@ -1,5 +1,7 @@
 # ES9028 controller Linux Driver Install Manual
 
+## Setup compile environment
+
 ### Getting Kernel Source
 Install "rpi-source" software.  
 The "rpi-source" command automaticaly downloads the kernel source that matched running linux kernel version.
@@ -9,7 +11,7 @@ https://github.com/notro/rpi-source/wiki
 to install:
 
     sudo wget https://raw.githubusercontent.com/notro/rpi-source/master/rpi-source -O /usr/bin/rpi-source && sudo chmod +x /usr/bin/rpi-source && /usr/bin/rpi-source -q --tag-update
-
+    
 ### Getting dtc (Device Tree Compiler) package
 Install dtc by package system.
 
@@ -46,7 +48,9 @@ Choose place of kernel source files & directory, e.g. '.' current folder.
 
     rpi-source -d .
 
-(if rpi-source gives kernel version mismatck, use 'sudo apt-get install raspberrypi-kernel-headers')
+if rpi-source gives kernel version mismatck, use 
+
+	sudo apt-get install raspberrypi-kernel-headers
 
 
 ### 2. Build & Install driver & dtb (device tree blob)
@@ -73,11 +77,24 @@ Use aplay -l command to check audio card is added.
     aplay -l
 
 	
-### optional: enable bbr 
-sudo nano /etc/sysctl.conf
+### 6. optional: enable bbr 
+
+	sudo nano /etc/sysctl.conf
+	
 add following to the end of the file:
+
 	net.core.default_qdisc=fq
 	net.ipv4.tcp_congestion_control=bbr
-sudo sysctl -p
+	
+In terminal, run:
+
+	sudo sysctl -p
 check:
-sysctl net.ipv4.tcp_congestion_control
+
+	sysctl net.ipv4.tcp_congestion_control
+	
+## Note
+
+This driver only works with the ES9028 controller flashed with pre-compiled binary
+
+## Relate resouce
