@@ -80,7 +80,7 @@ static bool hifibunny_codec_readable(struct device *dev, unsigned int reg)
 //A list of non-cache reg
 static bool hifibunny_codec_volatile(struct device *dev, unsigned int reg)
 {
-	return false;
+	return true;
 }
 
 
@@ -324,23 +324,6 @@ static int hifibunny_codec_dac_mute(struct snd_soc_dai *dai, int mute)
 //Unmute DAC
 static int hifibunny_codec_dac_unmute(struct snd_soc_dai *dai)
 {
-	//Pulling counter
-	uint8_t count = 0;
-	//Get current general setting
-	uint8_t genSet = snd_soc_read(dai->codec, GENERAL_SET);
-	uint8_t lockstate;
-	while(count <= 254)
-	{
-		count++;
-		lockstate = snd_soc_read(dai->codec, chipStatue) && 01;
-		mdelay(20);
-		//Only unmute the DAC when a DPLL lock is detected.
-		if(lockstate == 1)
-		{
-			break;
-		}
-	}
-	//Unmute the DAC when a DPLL lock is detected or pulling timeout reached.
 	snd_soc_write(dai->codec, GENERAL_SET, genSet & 0xFC);
 	return 0;
 }
@@ -348,6 +331,7 @@ static int hifibunny_codec_dac_unmute(struct snd_soc_dai *dai)
 //Call back function that will execute during playback preparation 
 static int hifibunny_codec_dai_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
 {
+	hifibunny_codec_dac_unmute(dai);
 	return 0;
 }
 
@@ -357,11 +341,9 @@ static int hifibunny_codec_dai_trigger(struct snd_pcm_substream *substream, int 
 	int ret = 0;
 	switch(cmd)
 	{
-		//Try to unmute DAC when the user asks to play
 		case SNDRV_PCM_TRIGGER_START:
 		case SNDRV_PCM_TRIGGER_RESUME:
 		case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-			hifibunny_codec_dac_unmute(dai);
 			break;
 		//Try to mute DAC when the user asks to stop
 		case SNDRV_PCM_TRIGGER_STOP:
